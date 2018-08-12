@@ -1,0 +1,59 @@
+{% set validationErrors = fieldErrors|entry(param_name) %}
+
+{% set options =  param_options %}
+{% set option_value = param_option_value %}
+{% set option_text = param_option_text %}
+{% set select_value = param_value %}
+{% set option_prepend = param_option_prepend %}
+
+<div class="form-group {{ validationErrors|isempty|ifelse('', 'has-error') }}">
+    {% if param_label %}
+        <label>
+            {{ param_label }}
+            {% if param_help_icon %}
+                <span class="label hs-helptext" title="{{ param_help_icon }}">
+                     <i class="fa fa-info-circle"></i>
+                </span>
+            {% endif %}
+            {% if param_html_help_icon %}
+                <span class="label hs-helptext" data-tooltip-content="{{ param_html_help_icon }}">
+                    <i class="fa fa-info-circle"></i>
+                </span>
+            {% endif %}
+        </label>
+    {% endif %}
+
+    {% if param_required %}
+        &nbsp;<span class="badge bg-yellow hs-helptext" title="Required">R</span>
+    {% endif %}
+
+    <select class="form-control {{ param_class }}" {{ param_map|xmlattr }}>
+        {% if option_prepend %}
+            {% set prepend_split = option_prepend|split_keep_empties('|', 2) %}
+            <option value="{{ prepend_split|first }}">{{ prepend_split|last }}</option>
+        {% endif %}
+
+        {# loop all possible options #}
+        {% for opt in options %}
+            {% set opt_value = opt|getprop(option_value)|string %}
+            {% set opt_selected =  select_value.contains(opt_value) %}
+            <option {{ opt_selected|ifelse('selected="selected"', '') }}  value="{{ opt|getprop(option_value) }}">{{ opt|getprop(option_text) }}</option>
+        {% endfor %}
+    </select>
+
+    {% if param_help %}
+        <span class="help-block"> {{ param_help }} </span>
+    {% endif %}
+
+
+    {% if validationErrors %}
+         <span class="help-block">
+             <ul>
+                 {% for error in validationErrors %}
+                 <li>{{ error }}</li>
+                 {% endfor %}
+             </ul>
+         </span>
+    {% endif %}
+
+</div>

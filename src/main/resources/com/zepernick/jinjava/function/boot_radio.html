@@ -1,0 +1,25 @@
+{% set bool_inline = param_inline|ifelse('1', '0') %}
+
+{% if bool_inline != '1' %}
+    <div class="{{ param_class }}">
+{% endif %}
+
+    <label class="{{ bool_inline|ifelse('radio-inline', '') }}">
+
+        <input type="radio" class="radio {{ param_class }}" {{ param_map|xmlattr }}   />
+        {{ param_label }}
+        {% if param_help_icon %}
+            <span class="label hs-helptext" title="{{ param_help_icon }}">
+                 <i class="fa fa-info-circle"></i>
+            </span>
+        {% endif %}
+        {% if param_html_help_icon %}
+            <span class="label hs-helptext" data-tooltip-content="{{ param_html_help_icon }}">
+                <i class="fa fa-info-circle"></i>
+            </span>
+        {% endif %}
+    </label>
+
+{% if bool_inline != '1' %}
+    </div>
+{% endif %}

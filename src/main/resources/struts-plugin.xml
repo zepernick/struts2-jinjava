@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+
+    <constant name="struts.jinjava.basepath" value="WEB-INF/jinjava" />
+
+    <package name="jinjava"  namespace="/">
+        <result-types>
+            <result-type name="jinjava" class="com.zepernick.struts.result.JinJavaResult" />
+        </result-types>
+    </package>
+</struts>

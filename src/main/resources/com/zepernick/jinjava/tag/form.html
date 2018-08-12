@@ -1,0 +1,15 @@
+{% set standard_methods = ['get', 'post'] %}
+{% set method = 'GET' %}
+{% if param_method|lower != 'get' %}
+    {% set method = 'POST' %}
+{% endif %}
+{% if param_method|lower == 'put' and  param_record_id %}
+    {% set param_action = param_action ~ '/' ~ param_record_id %}
+{% endif %}
+<form action="{{ param_action }}" method="{{ method }}" {{ tag_attributes|xmlattr }}>
+    {% if standard_methods|contains(param_method|lower) == false %}
+       <input type="hidden" name="_method" value="{{ param_method }}" />
+    {% endif %}
+
+    {{ tag_body }}
+</form>

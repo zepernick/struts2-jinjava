@@ -1,0 +1,34 @@
+{% set bool_inline = param_inline|ifelse('1', '0') %}
+
+{% if bool_inline != '1' %}
+    <div class="{{ param_class }}">
+{% endif %}
+
+    <label class="{{ bool_inline|ifelse('checkbox-inline', '') }}">
+
+        <input type="checkbox" class="checkbox {{ param_class }}" {{ param_attributes_map|xmlattr }}   />
+        {#
+        This works with the Struts 2 checkbox interceptor to set a "false" value
+        to the Boolean if it is not checked.  The browser does not send unchecked
+        checkboxes as a parameter and this is how we can ensure we get a value
+        https://struts.apache.org/docs/checkbox-interceptor.html
+        The Struts documentation is wrong.  parameter should be prefixed with "__checkbox_"
+        after it did not work and review of the source code
+        #}
+        <input type="hidden" value="false" name="__checkbox_{{ param_name }}" >
+        {{ param_label }}
+        {% if param_help_icon %}
+            <span class="label hs-helptext" title="{{ param_help_icon }}">
+                 <i class="fa fa-info-circle"></i>
+            </span>
+        {% endif %}
+        {% if param_html_help_icon %}
+            <span class="label hs-helptext" data-tooltip-content="{{ param_html_help_icon }}">
+                <i class="fa fa-info-circle"></i>
+            </span>
+        {% endif %}
+    </label>
+
+{% if bool_inline != '1' %}
+    </div>
+{% endif %}

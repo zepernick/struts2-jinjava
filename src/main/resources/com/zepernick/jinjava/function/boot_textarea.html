@@ -1,0 +1,43 @@
+{% set validationErrors = fieldErrors|entry(param_name) %}
+
+
+<div class="form-group {{ validationErrors|isempty|ifelse('', 'has-error') }}">
+    {% if param_label %}
+         <label>
+             {{ param_label }}
+             {% if param_help_icon %}
+                 <span class="label hs-helptext" title="{{ param_help_icon }}">
+                     <i class="fa fa-info-circle"></i>
+                </span>
+             {% endif %}
+             {% if param_html_help_icon %}
+                 <span class="label hs-helptext" data-tooltip-content="{{ param_html_help_icon }}">
+                    <i class="fa fa-info-circle"></i>
+                 </span>
+             {% endif %}
+         </label>
+    {% endif %}
+
+    {% if param_required %}
+        &nbsp;<span class="badge bg-yellow hs-helptext" title="Required">R</span>
+    {% endif %}
+
+
+    <textarea class="form-control {{ param_class }}" {{ param_map|xmlattr }}>{{ param_value }}</textarea>
+
+    {% if param_help %}
+        <span class="help-block"> {{ param_help }} </span>
+    {% endif %}
+
+
+    {% if validationErrors %}
+         <span class="help-block">
+             <ul>
+                 {% for error in validationErrors %}
+                    <li>{{ error }}</li>
+                 {% endfor %}
+             </ul>
+         </span>
+    {% endif %}
+
+</div>
